@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item1"
+        android:title="@string/member"
+        android:icon="@mipmap/gallery_icon"
+        />
+    <item
+        android:id="@+id/item2"
+        android:title="@string/about"
+        android:icon="@mipmap/about_icon"/>
+</menu>

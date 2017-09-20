@@ -3,4 +3,16 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="main_color">#39E0FF</color>
+    <!--倒计时控件背景半透明颜色-->
+    <color name="timer_background_color">#20F25D8E</color>
+    <color name="green">#80D63F</color>
+    <color name="blue">#39E0FF</color>
+    <color name="gray">#edebeb</color>
+    <color name="gray_dark">#979696</color>
+    <color name="gallery_blue">#39E0FF</color>
+    <color name="black">#000</color>
+    <color name="red">#F00</color>
+    <color name="white">#fff</color><!--图片选择器UI-->
+    <color name="light_gray">#e0e0e0</color>
 </resources>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TuSha</string>
+    <string name="main_home">首页</string>
+    <string name="main_category">分类</string>
+    <string name="main_videos">视频</string>
+    <string name="main_welfare">福利</string>
+    <string name="main_reading">闲读</string>
+    <string name="member">成为会员</string>
+    <string name="about">关于</string>
 </resources>
