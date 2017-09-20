@@ -1,4 +1,4 @@
-package win.tommy.tusha.util;
+package win.tommy.tusha.util.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,11 +10,12 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 /**
- * Created by tommy on 2017/9/8 0008.
+ * description:glide转换圆角图片
+ * Created by xsf
+ * on 2016.04.15:17
  */
-
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
+public class GlideRoundTransformUtil extends BitmapTransformation {
+    public GlideRoundTransformUtil(Context context) {
         super(context);
     }
 
@@ -29,7 +30,6 @@ public class GlideCircleTransform extends BitmapTransformation {
         int size = Math.min(source.getWidth(), source.getHeight());
         int x = (source.getWidth() - size) / 2;
         int y = (source.getHeight() - size) / 2;
-
         Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
 
         Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
@@ -50,5 +50,4 @@ public class GlideCircleTransform extends BitmapTransformation {
     public String getId() {
         return getClass().getName();
     }
-
 }
