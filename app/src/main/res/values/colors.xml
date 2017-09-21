@@ -15,4 +15,5 @@
     <color name="red">#F00</color>
     <color name="white">#fff</color><!--图片选择器UI-->
     <color name="light_gray">#e0e0e0</color>
+    <color name="toast_stroke_gray">#99d4d4d4</color>
 </resources>
