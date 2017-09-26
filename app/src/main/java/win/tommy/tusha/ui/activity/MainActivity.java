@@ -7,17 +7,22 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    protected int setLayoutResourceID() {
+    public int getLayoutId() {
         return R.layout.activity_main;
     }
 
     @Override
-    protected void setUpView() {
+    public void initPresenter() {
 
     }
 
     @Override
-    protected void setUpData() {
+    public void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
 
     }
 }
