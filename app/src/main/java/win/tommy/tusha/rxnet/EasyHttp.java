@@ -75,6 +75,7 @@ import win.tommy.tusha.rxnet.utils.Utils;
  * 作者： zhouyou<br>
  * 日期： 2017/4/25 15:25 <br>
  * 版本： v1.0<br>
+ * https://github.com/zhou-you/RxEasyHttp
  */
 public final class EasyHttp {
     private static Application sContext;

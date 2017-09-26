@@ -258,4 +258,22 @@ public class DisplayUtil {
 		view.destroyDrawingCache();
 		return bp;
 	}
+	/**
+	 * 获取屏幕分辨率
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static String getPhoneSize(final Context context) {
+		DisplayMetrics dm;
+		dm = context.getResources().getDisplayMetrics();
+
+       /* int densityDPI = dm.densityDpi; // 屏幕密度（每寸像素：120/160/240/320）
+        float xdpi = dm.xdpi;
+        float ydpi = dm.ydpi;*/
+		int screenWidth = dm.widthPixels; // 屏幕宽（像素，如：480px）
+		int screenHeight = dm.heightPixels; // 屏幕高（像素，如：800px）
+
+		return screenWidth + "*" + screenHeight;
+	}
 }
