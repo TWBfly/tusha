@@ -8,8 +8,8 @@ import android.content.res.Resources;
  * Created by tommy on 2017/9/20 0020.
  */
 
-public class myApplication extends Application {
-    private  static myApplication myApplication;
+public class MyApplication extends Application {
+    private  static MyApplication myApplication;
     @Override
     public void onCreate() {
         super.onCreate();
