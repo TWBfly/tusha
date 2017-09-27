@@ -6,5 +6,5 @@ package win.tommy.tusha.presenter;
  */
 
 public interface PicturePresenter{
-   void getPicData();
+   void getPicData(int num,int pageNum);
 }

@@ -1,7 +1,5 @@
 package win.tommy.tusha.presenter.impl;
 
-import android.util.Log;
-
 import java.util.List;
 
 import win.tommy.tusha.model.PictureModel;
@@ -34,7 +32,7 @@ public class PicturePresenterImpl implements PicturePresenter,GetPicDataListener
         pictureView.setUpPicData(results);
     }
 
-    public void getPicData(){
-        pictureModel.getPicData(this);
+    public void getPicData(int num,int pageNum){
+        pictureModel.getPicData(this,num,pageNum);
     }
 }

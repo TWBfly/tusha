@@ -9,6 +9,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 
+import win.tommy.tusha.R;
+
 /**
  * Created by tommy on 2017/9/8 0008.
  */
@@ -36,7 +38,7 @@ public class GlideImageLoader {
                 .with(context)
                 .load(url)
 //                .placeholder(R.mipmap.ic_image_loading) //无网络默认加载的图片
-//                .error(R.mipmap.ic_image_loading)
+                .error(R.mipmap.ic_image_loading)
                 .centerCrop()
                 .crossFade()
                 .into(imageView);

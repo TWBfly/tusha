@@ -50,10 +50,10 @@ public class MyApplication extends Application {
                 .setRetryCount(3)//默认网络不好自动重试3次
                 .setRetryDelay(500)//每次延时500ms重试
                 .setRetryIncreaseDelay(500)//每次延时叠加500ms
-                .setCacheMode(CacheMode.FIRSTREMOTE)//先请求网络，请求网络失败后再加载缓存 具体请看CacheMode
+                .setCacheMode(CacheMode.DEFAULT)// FIRSTREMOTE先请求网络，请求网络失败后再加载缓存 具体请看CacheMode
                 .setBaseUrl(Api.BaseUrl)
                 .setCacheDiskConverter(new SerializableDiskConverter())//默认缓存使用序列化转化
-                .setCacheMaxSize(50 * 1024 * 1024)//设置缓存大小为50M
+                .setCacheMaxSize(500 * 1024 * 1024)//设置缓存大小为50M
                 .setCacheVersion(1)//缓存版本为1
                 .setHostnameVerifier(new UnSafeHostnameVerifier(Api.BaseUrl))//全局访问规则
                 .setCertificates()//信任所有证书

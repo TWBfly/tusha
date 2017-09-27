@@ -7,5 +7,5 @@ import win.tommy.tusha.rxlistener.GetPicDataListener;
  */
 
 public interface  PictureModel{
-     void getPicData(GetPicDataListener listener);
+     void getPicData(GetPicDataListener listener,int num,int pageNum);
 }
