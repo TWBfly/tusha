@@ -5,5 +5,7 @@ package win.tommy.tusha.util;
  */
 
 public interface Api {
-    String BaseUrl = "";
+    //http://gank.io/api/data/数据类型/请求个数/第几页
+    //http://gank.io/api/data/福利/10/1
+    String BaseUrl = "http://gank.io/api/data/福利/";
 }

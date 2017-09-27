@@ -45,7 +45,6 @@
             android:layout_gravity="bottom"
             android:background="@color/gray"
             app:menu="@menu/menu_bottom_navigation"
-            android:visibility="gone"
             />
     </android.support.design.widget.CoordinatorLayout>
 

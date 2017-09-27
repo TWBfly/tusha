@@ -67,17 +67,17 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         if(mPresenter!=null){
             mPresenter.mContext=this.getActivity();
         }
+        initView(rootView);
         initPresenter();
-        initView();
         initData();
         return rootView;
     }
     //获取布局文件
     protected abstract int getLayoutResource();
+    //初始化view
+    protected abstract void initView(View view);
     //简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
     public abstract void initPresenter();
-    //初始化view
-    protected abstract void initView();
     //初始化数据
     protected abstract void initData();
 
@@ -144,12 +144,6 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     public void stopProgressDialog() {
         LoadingDialog.cancelDialogForLoading();
     }
-
-
-
-
-
-
 
     /**
      * 网络访问错误提醒

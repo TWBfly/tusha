@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -12,9 +14,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import win.tommy.tusha.MyApplication;
 import win.tommy.tusha.R;
 import win.tommy.tusha.base.BaseActivity;
+import win.tommy.tusha.base.BaseFragment;
+import win.tommy.tusha.ui.fragment.EpisodeFragment;
+import win.tommy.tusha.ui.fragment.PictureFragment;
 import win.tommy.tusha.util.Constant;
 import win.tommy.tusha.util.SPUtil;
 import win.tommy.tusha.util.StatusBarUtil;
@@ -29,6 +36,7 @@ public class MainActivity extends BaseActivity {
     private BottomNavigationView mTabBottom;
     private ActionBarDrawerToggle mDrawerToggle;
     private ImageView mNavHeaderImg;
+    private ArrayList<BaseFragment> fragments = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -56,10 +64,12 @@ public class MainActivity extends BaseActivity {
         initToolbar(); //初始化toolbar
         initNightMode();//初始化夜间模式
         setupNavView();//初始化nav_view
+        setupTabBottom();//初始化底部导航栏
+        initFragment();//初始化话fragment
     }
 
     private void initToolbar() {
-        mToolbar.setTitle(getResources().getString(R.string.main_home));
+        mToolbar.setTitle(getResources().getString(R.string.main_welfare));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -162,6 +172,40 @@ public class MainActivity extends BaseActivity {
 
     private void changeHeader() {
 
+    }
+
+    private void setupTabBottom() {
+        mTabBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_welfare:
+                        mToolbar.setTitle(getResources().getString(R.string.main_welfare));
+                        selectFragment(0);
+                        break;
+                    case R.id.item_reading:
+                        mToolbar.setTitle(getResources().getString(R.string.main_episode));
+                        selectFragment(1);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void initFragment() {
+        fragments.add(new PictureFragment());
+        fragments.add(new EpisodeFragment());
+        selectFragment(0);
+    }
+
+    private void selectFragment(int index) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_home_activity,fragments.get(index));
+        fragmentTransaction.commit();
     }
 
 }
