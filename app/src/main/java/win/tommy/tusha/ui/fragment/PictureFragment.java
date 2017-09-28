@@ -1,6 +1,7 @@
 package win.tommy.tusha.ui.fragment;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import win.tommy.tusha.R;
 import win.tommy.tusha.base.BaseFragment;
 import win.tommy.tusha.model.bean.PictureBean;
 import win.tommy.tusha.presenter.impl.PicturePresenterImpl;
+import win.tommy.tusha.ui.activity.BigPicActivity;
 import win.tommy.tusha.ui.adapter.PicAdapter;
 import win.tommy.tusha.ui.view.PictureView;
 
@@ -85,11 +88,22 @@ public class PictureFragment extends BaseFragment implements PictureView{
                 }, 1000);
             }
         },pic_recyle);
+        //item点击事件
+        picAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                List<PictureBean.ResultsBean> data = adapter.getData();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("results", (Serializable) data);
+                bundle.putInt("position",position);
+                startActivity(BigPicActivity.class,bundle);
+            }
+        });
     }
 
 
     @Override
-    public void setUpPicData(List<PictureBean.ResultsBean> results) {
+    public void setUpPicData(final List<PictureBean.ResultsBean> results) {
         if (is_dropDown){
 //            picAdapter.clear();
             picAdapter.addFrist(0,results);
@@ -97,6 +111,7 @@ public class PictureFragment extends BaseFragment implements PictureView{
             picAdapter.clear();
             picAdapter.addData(results);
         }
+
 
     }
 

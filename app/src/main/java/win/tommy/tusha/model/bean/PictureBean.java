@@ -2,11 +2,13 @@ package win.tommy.tusha.model.bean;
 
 import java.util.List;
 
+import win.tommy.tusha.base.BaseEntity;
+
 /**
  * Created by tommy on 2017/9/26 0026.
  */
 
-public class PictureBean {
+public class PictureBean extends BaseEntity {
 
     /**
      * error : false
@@ -32,7 +34,7 @@ public class PictureBean {
         this.results = results;
     }
 
-    public static class ResultsBean {
+    public static class ResultsBean extends BaseEntity {
         /**
          * _id : 59c46011421aa972845f2089
          * createdAt : 2017-09-22T08:57:53.998Z
