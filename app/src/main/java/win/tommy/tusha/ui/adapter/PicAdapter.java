@@ -28,4 +28,13 @@ public class PicAdapter extends BaseQuickAdapter<PictureBean.ResultsBean,BaseVie
         ImageView imageView = (ImageView) helper.getView(R.id.item_img);
         GlideImageLoader.getInstance().displayImage(mContext,item.getUrl(),imageView);
     }
+
+    public void clear() {
+        mData.clear();
+        notifyDataSetChanged();
+    }
+    public void addFrist(int position, List<PictureBean.ResultsBean> results){
+        mData.addAll(position,results);
+        notifyDataSetChanged();
+    }
 }

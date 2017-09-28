@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import win.tommy.tusha.R;
@@ -26,8 +29,11 @@ public class PictureFragment extends BaseFragment implements PictureView{
     private RecyclerView pic_recyle;
     private Handler handler = new Handler();
     private PicturePresenterImpl picturePresenter = new PicturePresenterImpl(this);
-    private int num = 100;
+    PicAdapter picAdapter;
+    private int num = 50;
     private int pageNum = 1;
+    private boolean is_dropDown = false;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_picture;
@@ -47,25 +53,51 @@ public class PictureFragment extends BaseFragment implements PictureView{
     protected void initData() {
         pic_swipe.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
         pic_recyle.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+        //下拉刷新
         pic_swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        num=num+10;
+                        pageNum=pageNum+1;
                         picturePresenter.getPicData(num,pageNum);
                         pic_swipe.setRefreshing(false);
+                        is_dropDown = true;
                     }
                 }, 1000);
             }
         });
+        ArrayList<PictureBean.ResultsBean> list = new ArrayList<>();
+        picAdapter = new PicAdapter(R.layout.item_frgment_picture, list);
+        pic_recyle.setAdapter(picAdapter);
+        //加载更多
+        picAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                pic_recyle.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        num=num+10;
+                        picturePresenter.getPicData(num,pageNum);
+                        picAdapter.loadMoreComplete();
+                    }
+                }, 1000);
+            }
+        },pic_recyle);
     }
 
 
     @Override
     public void setUpPicData(List<PictureBean.ResultsBean> results) {
-        pic_recyle.setAdapter(new PicAdapter(R.layout.item_frgment_picture,results));
+        if (is_dropDown){
+//            picAdapter.clear();
+            picAdapter.addFrist(0,results);
+        }else {
+            picAdapter.clear();
+            picAdapter.addData(results);
+        }
+
     }
 
     @Override

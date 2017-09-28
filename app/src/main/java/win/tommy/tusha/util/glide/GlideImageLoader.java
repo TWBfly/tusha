@@ -5,11 +5,12 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 
 import win.tommy.tusha.R;
+
+import static com.bumptech.glide.load.engine.DiskCacheStrategy.ALL;
 
 /**
  * Created by tommy on 2017/9/8 0008.
@@ -41,6 +42,8 @@ public class GlideImageLoader {
                 .error(R.mipmap.ic_image_loading)
                 .centerCrop()
                 .crossFade()
+                .thumbnail(0.1f)//缩略图
+                .diskCacheStrategy(ALL)
                 .into(imageView);
     }
 
@@ -107,7 +110,7 @@ public class GlideImageLoader {
     }
     public void displayRoundImage(Context context,String url,ImageView imageView){
         Glide.with(context).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(ALL)
 //                .error(R.mipmap.ic_image_loading)
                 //.centerCrop()//网友反馈，设置此属性可能不起作用,在有些设备上可能会不能显示为圆角。可测试
                 .crossFade()
