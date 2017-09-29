@@ -44,4 +44,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     testCompile 'junit:junit:4.12'
+    compile 'zlc.season:rxdownload2:2.0.4'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 }
