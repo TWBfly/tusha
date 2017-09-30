@@ -10,12 +10,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import win.tommy.tusha.MyApplication;
 import win.tommy.tusha.R;
@@ -26,6 +29,7 @@ import win.tommy.tusha.ui.fragment.PictureFragment;
 import win.tommy.tusha.util.Constant;
 import win.tommy.tusha.util.SPUtil;
 import win.tommy.tusha.util.StatusBarUtil;
+import win.tommy.tusha.util.ToastUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -40,6 +44,7 @@ public class MainActivity extends BaseActivity {
     private ArrayList<BaseFragment> fragments = new ArrayList<>();
     private Fragment currentFragment = new Fragment();
     private FragmentManager fm;
+    public boolean is_exit = false;
 
     @Override
     public int getLayoutId() {
@@ -230,5 +235,29 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
+    //双击退出
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+        }
+        return false;
+    }
 
+    private void exit() {
+        Timer timer;
+        if (!is_exit) {
+            is_exit = true;
+            ToastUtil.showLongToast(MainActivity.this,"再按一次退出测试");
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    is_exit = false;
+                }
+            }, 2000);
+        } else {
+            finish();
+        }
+    }
 }

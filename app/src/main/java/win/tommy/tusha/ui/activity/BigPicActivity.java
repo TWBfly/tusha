@@ -1,6 +1,8 @@
 package win.tommy.tusha.ui.activity;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,7 @@ import uk.co.senab.photoview.PhotoView;
 import win.tommy.tusha.R;
 import win.tommy.tusha.base.BaseActivity;
 import win.tommy.tusha.model.bean.PictureBean;
+import win.tommy.tusha.util.SDCardUtil;
 import win.tommy.tusha.util.ToastUtil;
 import win.tommy.tusha.util.glide.GlideImageLoader;
 import win.tommy.tusha.widget.progress.HorizontalProgressBarWithNumber;
@@ -48,6 +52,8 @@ public class BigPicActivity extends BaseActivity {
         }
     };
     private RxDownload rxDownload;
+    private File savePath;
+    private String defaultSavePath;
 
     @Override
     public int getLayoutId() {
@@ -72,9 +78,27 @@ public class BigPicActivity extends BaseActivity {
         results = (ArrayList<PictureBean.ResultsBean>) getIntent().getSerializableExtra("results");
         GlideImageLoader.getInstance().displayImage(this, results.get(position).getUrl(), photo_img);
 
+        if (SDCardUtil.ExistSDCard() && SDCardUtil.getSDFreeSize() > 1.0f){
+            defaultSavePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+//            defaultSavePath = Environment.getExternalStorageDirectory()+"/tushaDownload";
+            savePath = Environment.getExternalStorageDirectory();
+            Log.e("twb","defaultSavePath=111="+defaultSavePath);
+            Log.e("twb","savePath=111="+savePath);
+        }else {
+            defaultSavePath = Environment.getDataDirectory().getAbsolutePath();
+            savePath = Environment.getDataDirectory();
+            Log.e("twb","defaultSavePath=222="+defaultSavePath);
+            Log.e("twb","savePath=222="+savePath);
+        }
+
+        File file = new File(defaultSavePath);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
         rxDownload = RxDownload.getInstance(this)
                 //.retrofit(myRetrofit)             //若需要自己的retrofit客户端,可在这里指定
-                .defaultSavePath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()) //设置默认的下载路径
+                .defaultSavePath(defaultSavePath) //设置默认的下载路径
                 .maxThread(3)                     //设置最大线程
                 .maxRetryCount(3)                 //设置下载失败重试次数
                 .maxDownloadNumber(5);
@@ -126,6 +150,12 @@ public class BigPicActivity extends BaseActivity {
                                 if (percentNumber == 100) {
                                     photo_progress.setVisibility(View.GONE);
                                     ToastUtil.showLongToast(BigPicActivity.this, "下载完成");
+                                    //把图片保存后声明这个广播事件通知系统相册有新图片到来
+                                    Log.e("twb","savePath=="+savePath);
+                                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                    Uri uri = Uri.fromFile(savePath);
+                                    intent.setData(uri);
+                                    BigPicActivity.this.sendBroadcast(intent);
                                 }
                             }
                         });
