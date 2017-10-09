@@ -16,4 +16,13 @@
     <color name="white">#fff</color><!--图片选择器UI-->
     <color name="light_gray">#e0e0e0</color>
     <color name="toast_stroke_gray">#99d4d4d4</color>
+
+    <color name="color1">#212121</color>
+    <color name="color2">#333333</color>
+    <color name="color3">#666666</color>
+    <color name="color4">#999999</color>
+    <color name="color5">#BBBBBB</color>
+    <color name="color6">#EEEEEE</color>
+    <color name="color7">#F5F5F5</color>
+    <color name="color8">#FAFAFA</color>
 </resources>

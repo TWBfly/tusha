@@ -44,14 +44,7 @@ public class PhotoViewAdapter extends PagerAdapter {
         View view = inflater.inflate(R.layout.adapter_item_image_layout, null);
         PhotoView photo_img = view.findViewById(R.id.photo_img);
         photo_img.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        photo_img.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-//            @Override
-//            public void onPhotoTap(View view, float x, float y) {
-//                mActivity.finish();
-//            }
-//        });
         GlideImageLoader.getInstance().displayImage(mActivity, data.get(position).getUrl(), photo_img);
-
         container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         return view;
     }

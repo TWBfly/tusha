@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TuSha</string>
+    <string name="app_name">图图啥</string>
     <string name="main_home">首页</string>
     <string name="main_category">分类</string>
     <string name="main_videos">视频</string>
@@ -15,4 +15,6 @@
     <string name="no_net">网络不可用,请检查你的网络</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
 </resources>
