@@ -73,7 +73,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
     protected long cacheTime = -1;                                         //缓存时间
     protected String cacheKey;                                             //缓存Key
     protected IDiskConverter diskConverter;                                //设置Rxcache磁盘转换器
-    protected String baseUrl;                                              //BaseUrl
+    protected String baseUrl;                                              //GankUrl
     protected String url;                                                  //请求url
     protected long readTimeOut;                                            //读超时
     protected long writeTimeOut;                                           //写超时
@@ -322,7 +322,6 @@ public abstract class BaseRequest<R extends BaseRequest> {
         params.put(key, value);
         return (R) this;
     }
-
     public R removeParam(String key) {
         params.remove(key);
         return (R) this;

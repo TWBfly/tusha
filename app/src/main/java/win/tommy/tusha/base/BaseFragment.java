@@ -1,5 +1,6 @@
 package win.tommy.tusha.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -56,6 +57,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     protected View rootView;
     public T mPresenter;
     public E mModel;
+    public Context mContext;
 
     @Nullable
     @Override
@@ -67,6 +69,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         if(mPresenter!=null){
             mPresenter.mContext=this.getActivity();
         }
+        mContext = container.getContext();
         initView(rootView);
         initPresenter();
         initData();

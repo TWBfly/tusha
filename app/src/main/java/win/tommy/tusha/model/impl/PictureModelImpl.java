@@ -9,6 +9,7 @@ import win.tommy.tusha.rxnet.EasyHttp;
 import win.tommy.tusha.rxnet.cache.converter.GsonDiskConverter;
 import win.tommy.tusha.rxnet.callback.CallBack;
 import win.tommy.tusha.rxnet.exception.ApiException;
+import win.tommy.tusha.util.Api;
 import win.tommy.tusha.util.GsonUtil;
 
 /**
@@ -19,7 +20,7 @@ public class PictureModelImpl implements PictureModel {
 
     @Override
     public void getPicData(final GetPicDataListener listener,int num,int pageNum) {
-        EasyHttp.get(num+"/"+pageNum+"")//?imageView2/0/w/100 
+        EasyHttp.get(Api.GankUrl +num+"/"+pageNum+"")//?imageView2/0/w/100
                 .cacheDiskConverter(new GsonDiskConverter())//GSON-数据转换器
                 .retryCount(5)//本次请求重试次数
                 .retryDelay(500)//本次请求重试延迟时间500ms
