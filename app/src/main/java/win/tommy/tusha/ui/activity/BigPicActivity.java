@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,9 +23,9 @@ import uk.co.senab.photoview.PhotoView;
 import win.tommy.tusha.R;
 import win.tommy.tusha.base.BaseActivity;
 import win.tommy.tusha.model.bean.PictureBean;
+import win.tommy.tusha.ui.adapter.PhotoViewAdapter;
 import win.tommy.tusha.util.SDCardUtil;
 import win.tommy.tusha.util.ToastUtil;
-import win.tommy.tusha.util.glide.GlideImageLoader;
 import win.tommy.tusha.widget.progress.HorizontalProgressBarWithNumber;
 import zlc.season.rxdownload2.RxDownload;
 import zlc.season.rxdownload2.entity.DownloadEvent;
@@ -35,7 +36,7 @@ public class BigPicActivity extends BaseActivity {
 
     private PhotoView photo_img;
     private ImageView photo_download;
-    private int position;
+//    private int position;
     private List<PictureBean.ResultsBean> results;
     private HorizontalProgressBarWithNumber photo_progress;
     private static final int MSG_PROGRESS_UPDATE = 0x110;
@@ -54,6 +55,8 @@ public class BigPicActivity extends BaseActivity {
     private RxDownload rxDownload;
     private File savePath;
     private String defaultSavePath;
+    private ViewPager viewPager;
+    private int curPos;
 
     @Override
     public int getLayoutId() {
@@ -67,28 +70,47 @@ public class BigPicActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        photo_img = (PhotoView) findViewById(R.id.photo_img);
+//        photo_img = (PhotoView) findViewById(R.id.photo_img);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         photo_download = (ImageView) findViewById(R.id.photo_download);
         photo_progress = (HorizontalProgressBarWithNumber) findViewById(R.id.photo_progress);
     }
 
     @Override
     protected void initData() {
-        position = getIntent().getIntExtra("position", 0);
+//        position = getIntent().getIntExtra("position", 0);
         results = (ArrayList<PictureBean.ResultsBean>) getIntent().getSerializableExtra("results");
-        GlideImageLoader.getInstance().displayImage(this, results.get(position).getUrl(), photo_img);
+        viewPager.setAdapter(new PhotoViewAdapter(this,results));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                curPos = position;
+                viewPager.setTag(position);
+                Log.e("twbtommy","选中的position="+curPos);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        viewPager.setCurrentItem(curPos);
         if (SDCardUtil.ExistSDCard() && SDCardUtil.getSDFreeSize() > 1.0f){
-            defaultSavePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+            defaultSavePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath();
 //            defaultSavePath = Environment.getExternalStorageDirectory()+"/tushaDownload";
             savePath = Environment.getExternalStorageDirectory();
-            Log.e("twb","defaultSavePath=111="+defaultSavePath);
-            Log.e("twb","savePath=111="+savePath);
+            Log.e("twb","defaultSavePath=SD卡="+defaultSavePath);
+            Log.e("twb","savePath=SD卡="+savePath);
         }else {
-            defaultSavePath = Environment.getDataDirectory().getAbsolutePath();
+            defaultSavePath = Environment.getDataDirectory().getPath();
             savePath = Environment.getDataDirectory();
-            Log.e("twb","defaultSavePath=222="+defaultSavePath);
-            Log.e("twb","savePath=222="+savePath);
+            Log.e("twb","defaultSavePath=内存="+defaultSavePath);
+            Log.e("twb","savePath=内存="+savePath);
         }
 
         File file = new File(defaultSavePath);
@@ -107,6 +129,7 @@ public class BigPicActivity extends BaseActivity {
         photo_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("twbtommy","下载的url地址="+results.get(curPos).getUrl());
                 //开始下载
                 new RxPermissions(BigPicActivity.this)
                         .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -119,7 +142,7 @@ public class BigPicActivity extends BaseActivity {
                             }
                         })
                         .subscribeOn(Schedulers.io())
-                        .compose(rxDownload.<Boolean>transformService(results.get(position).getUrl()))  //download
+                        .compose(rxDownload.<Boolean>transformService(results.get(curPos).getUrl()))  //download
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<Object>() {
                                        @Override
@@ -135,7 +158,7 @@ public class BigPicActivity extends BaseActivity {
                                    }
                         );
                 //接受接收下载事件和下载状态
-                rxDownload.receiveDownloadStatus(results.get(position).getUrl())
+                rxDownload.receiveDownloadStatus(results.get(curPos).getUrl())
                         .subscribe(new Consumer<DownloadEvent>() {
                             @Override
                             public void accept(DownloadEvent event) throws Exception {
