@@ -2,6 +2,8 @@ package win.tommy.tusha.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,14 +33,17 @@ public class ImageHelper {
     private LoadingDialog mDialog;
     private Disposable mDisposable;
     private String imagePath;
+    private File file;
 
     public ImageHelper(Activity activity) {
         this.mActivity = activity;
         if (SDCardUtil.ExistSDCard() && SDCardUtil.getSDFreeSize() > 1.0f){
             imagePath = getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).getPath();
+            file = getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS);
             Log.e("twb","defaultSavePath=SD卡="+imagePath);
         }else {
             imagePath = getDataDirectory().getPath();
+            file = getDataDirectory();
             Log.e("twb","defaultSavePath=内存="+imagePath);
         }
         File file = new File(imagePath);
@@ -60,7 +65,7 @@ public class ImageHelper {
     // 保存图片
     public void saveImage(String imageUrl) {
         RxPermissions rxPermissions = new RxPermissions(mActivity);
-        rxPermissions.request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        rxPermissions.request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe(granted -> {
                     if (!granted) {
                         ToastUtil.showLongToast(mActivity, "您已禁止了写数据权限");
@@ -74,6 +79,9 @@ public class ImageHelper {
                                         Throwable::printStackTrace);
                     }
                 });
+        //通知相册
+        Uri uri = Uri.fromFile(file);
+        mActivity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
     }
 
     // 保存图片

@@ -35,7 +35,8 @@ public class PictureFragment extends BaseFragment implements PictureView{
     PicAdapter picAdapter;
     private int num = 50;
     private int pageNum = 1;
-    private boolean is_dropDown = false;
+    private boolean is_dropDown = false;//下拉
+    private boolean is_dropUp = false;//上拉
 
     @Override
     protected int getLayoutResource() {
@@ -67,6 +68,10 @@ public class PictureFragment extends BaseFragment implements PictureView{
                         picturePresenter.getPicData(num,pageNum);
                         pic_swipe.setRefreshing(false);
                         is_dropDown = true;
+                        //上拉下拉不能同时进行
+//                        if (is_dropUp){
+//                            picAdapter.setEnableLoadMore(false);
+//                        }
                     }
                 }, 1000);
             }
@@ -74,6 +79,9 @@ public class PictureFragment extends BaseFragment implements PictureView{
         ArrayList<PictureBean.ResultsBean> list = new ArrayList<>();
         picAdapter = new PicAdapter(R.layout.item_frgment_picture, list);
         pic_recyle.setAdapter(picAdapter);
+
+        //开启动画
+        picAdapter.openLoadAnimation();
         //加载更多
         picAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -84,6 +92,7 @@ public class PictureFragment extends BaseFragment implements PictureView{
                         num=num+10;
                         picturePresenter.getPicData(num,pageNum);
                         picAdapter.loadMoreComplete();
+                        is_dropUp = true;
                     }
                 }, 1000);
             }
