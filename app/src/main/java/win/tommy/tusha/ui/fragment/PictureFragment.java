@@ -36,7 +36,6 @@ public class PictureFragment extends BaseFragment implements PictureView{
     private int num = 50;
     private int pageNum = 1;
     private boolean is_dropDown = false;//下拉
-    private boolean is_dropUp = false;//上拉
 
     @Override
     protected int getLayoutResource() {
@@ -56,7 +55,7 @@ public class PictureFragment extends BaseFragment implements PictureView{
     @Override
     protected void initData() {
         pic_swipe.setColorSchemeColors(Color.RED,Color.BLUE,Color.GREEN);
-        pic_recyle.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+        pic_recyle.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         //下拉刷新
         pic_swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -68,10 +67,6 @@ public class PictureFragment extends BaseFragment implements PictureView{
                         picturePresenter.getPicData(num,pageNum);
                         pic_swipe.setRefreshing(false);
                         is_dropDown = true;
-                        //上拉下拉不能同时进行
-//                        if (is_dropUp){
-//                            picAdapter.setEnableLoadMore(false);
-//                        }
                     }
                 }, 1000);
             }
@@ -82,6 +77,10 @@ public class PictureFragment extends BaseFragment implements PictureView{
 
         //开启动画
         picAdapter.openLoadAnimation();
+
+        if (pic_swipe.isRefreshing()){
+            picAdapter.setEnableLoadMore(false);
+        }
         //加载更多
         picAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -92,7 +91,6 @@ public class PictureFragment extends BaseFragment implements PictureView{
                         num=num+10;
                         picturePresenter.getPicData(num,pageNum);
                         picAdapter.loadMoreComplete();
-                        is_dropUp = true;
                     }
                 }, 1000);
             }
@@ -114,14 +112,11 @@ public class PictureFragment extends BaseFragment implements PictureView{
     @Override
     public void setUpPicData(final List<PictureBean.ResultsBean> results) {
         if (is_dropDown){
-//            picAdapter.clear();
             picAdapter.addFrist(0,results);
         }else {
             picAdapter.clear();
             picAdapter.addData(results);
         }
-
-
     }
 
     @Override

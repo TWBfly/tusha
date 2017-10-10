@@ -31,10 +31,12 @@ public class PicAdapter extends BaseQuickAdapter<PictureBean.ResultsBean,BaseVie
 
     public void clear() {
         mData.clear();
-        notifyDataSetChanged();
+        notifyItemRangeInserted(0,50);
+//        notifyDataSetChanged();
     }
     public void addFrist(int position, List<PictureBean.ResultsBean> results){
         mData.addAll(position,results);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(0,50);
+//        notifyDataSetChanged();
     }
 }
