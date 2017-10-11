@@ -248,7 +248,7 @@ public class MainActivity extends BaseActivity {
         Timer timer;
         if (!is_exit) {
             is_exit = true;
-            ToastUtil.showLongToast(MainActivity.this,"再按一次退出测试");
+            ToastUtil.showLongToast(MainActivity.this,"再按一次退出");
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override

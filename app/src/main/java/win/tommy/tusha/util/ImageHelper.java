@@ -79,9 +79,9 @@ public class ImageHelper {
                                         Throwable::printStackTrace);
                     }
                 });
-        //通知相册
-        Uri uri = Uri.fromFile(file);
-        mActivity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+            //通知相册
+            Uri uri = Uri.fromFile(file);
+            mActivity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
     }
 
     // 保存图片

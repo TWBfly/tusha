@@ -30,11 +30,13 @@ public class EpisodeAdapter extends BaseQuickAdapter<EpisodeBean.ResultBean.Data
 
     public void addFrist(int position, List<EpisodeBean.ResultBean.DataBean> data) {
         mData.addAll(position,data);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(0,10);
+//        notifyDataSetChanged();
     }
 
     public void clear() {
         mData.clear();
+//        notifyItemRangeInserted(0,10);
         notifyDataSetChanged();
     }
 }
